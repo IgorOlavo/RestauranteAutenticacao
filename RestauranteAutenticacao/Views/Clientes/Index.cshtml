@@ -4,11 +4,13 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link rel="stylesheet" href="/css/site.css">
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-light">
+        <a href="#" class="text-decoration-none"><a asp-action="Create">Cadastrar</a></a>
+    </button>
 </p>
 <table class="table">
     <thead>
@@ -38,9 +40,16 @@
                 @Html.DisplayFor(modelItem => item.telefone)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <button type="button" class="btn btn-success">
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+                </button>
+                    <button type="button" class="btn btn-warning">
+                <a asp-action="Details" asp-route-id="@item.id">Details</a>
+                    </button>
+                    <button type="button" class="btn btn-danger">
                 <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                    </button>
+
             </td>
         </tr>
 }

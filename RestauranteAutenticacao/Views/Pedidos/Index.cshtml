@@ -6,7 +6,7 @@
 }
 
 <h1>Index</h1>
-
+<link rel="stylesheet" href="/css/site.css">
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -64,11 +64,18 @@
                 <td>
                     @total.ToString("C2")
                 </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
+                <td>
+                    <button type="button" class="btn btn-success">
+                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+                    </button>
+                    <button type="button" class="btn btn-warning">
+                        <a asp-action="Details" asp-route-id="@item.id">Details</a>
+                    </button>
+                    <button type="button" class="btn btn-danger">
+                        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                    </button>
+
+                </td>
         </tr>
 }
     </tbody>
