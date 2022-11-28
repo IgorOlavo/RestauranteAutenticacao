@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using RestauranteAutenticacao.Data;
 using RestauranteAutenticacao.Models;
 
 namespace RestauranteAutenticacao.Controllers
@@ -55,7 +53,7 @@ namespace RestauranteAutenticacao.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,descricao,preco")] Bebida bebida)
+        public async Task<IActionResult> Create([Bind("id,descricao,preco,quantidade")] Bebida bebida)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +85,7 @@ namespace RestauranteAutenticacao.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,descricao,preco")] Bebida bebida)
+        public async Task<IActionResult> Edit(int id, [Bind("id,descricao,preco,quantidade")] Bebida bebida)
         {
             if (id != bebida.id)
             {
@@ -142,7 +140,7 @@ namespace RestauranteAutenticacao.Controllers
         {
             if (_context.Bebida == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Bebida'  is null.");
+                return Problem("Entity set 'Contexto.Bebida'  is null.");
             }
             var bebida = await _context.Bebida.FindAsync(id);
             if (bebida != null)

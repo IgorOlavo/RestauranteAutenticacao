@@ -91,6 +91,8 @@ namespace RestauranteAutenticacao.Controllers
                 pedido.bebidaid = randNum.Next(1, 5);
                 Bebida bebida = contexto.Bebida.Find(pedido.bebidaid);
 
+                pedido.quantidadebebida = randNum.Next(1, 100);
+
                 pedido.marmitaid = randNum.Next(1, 100);
                 Marmita marmita = contexto.Marmita.Find(pedido.marmitaid);
 

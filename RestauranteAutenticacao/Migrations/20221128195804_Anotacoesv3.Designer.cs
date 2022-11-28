@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestauranteAutenticacao.Models;
 
@@ -10,9 +11,10 @@ using RestauranteAutenticacao.Models;
 namespace RestauranteAutenticacao.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20221128195804_Anotacoesv3")]
+    partial class Anotacoesv3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +32,8 @@ namespace RestauranteAutenticacao.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("descricao")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<float>("preco")
                         .HasColumnType("real");
@@ -167,9 +170,6 @@ namespace RestauranteAutenticacao.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("marmitaid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("quantidadebebida")
                         .HasColumnType("int");
 
                     b.Property<int>("status")

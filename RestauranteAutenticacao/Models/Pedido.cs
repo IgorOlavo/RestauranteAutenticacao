@@ -19,6 +19,9 @@ namespace RestauranteAutenticacao.Models
         [Display(Name = "Bebida: ")]
         public int bebidaid { get; set; }
 
+        [Display(Name = "Quantidade Bebida: ")]
+        public int quantidadebebida { get; set; }
+
 
         [Display(Name = "Marmita: ")]
         public Marmita marmitas { get; set; }

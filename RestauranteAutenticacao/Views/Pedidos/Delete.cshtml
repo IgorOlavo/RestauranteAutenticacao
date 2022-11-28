@@ -16,13 +16,19 @@
             @Html.DisplayNameFor(model => model.bebida)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.bebida.descricao)
+            @Html.DisplayFor(model => model.bebida.id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.quantidadebebida)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.quantidadebebida)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.marmitas)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.marmitas.descricao)
+            @Html.DisplayFor(model => model.marmitas.id)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.cliente)

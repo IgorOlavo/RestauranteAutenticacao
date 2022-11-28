@@ -17,6 +17,9 @@
                 @Html.DisplayNameFor(model => model.bebida)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.quantidadebebida)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.marmitas)
             </th>
             <th>
@@ -37,6 +40,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.bebida.id)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quantidadebebida)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.marmitas.id)
             </td>

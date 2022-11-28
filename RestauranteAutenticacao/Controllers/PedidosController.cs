@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using RestauranteAutenticacao.Data;
 using RestauranteAutenticacao.Models;
 
 namespace RestauranteAutenticacao.Controllers
@@ -43,15 +43,16 @@ namespace RestauranteAutenticacao.Controllers
             {
                 return NotFound();
             }
+
             return View(pedido);
         }
 
         // GET: Pedidos/Create
         public IActionResult Create()
         {
-            ViewData["bebidaid"] = new SelectList(_context.Bebida, "id", "descricao");
+            ViewData["bebidaid"] = new SelectList(_context.Bebida, "id", "id");
             ViewData["clienteid"] = new SelectList(_context.Cliente, "id", "endereco");
-            ViewData["marmitaid"] = new SelectList(_context.Marmita, "id", "descricao");
+            ViewData["marmitaid"] = new SelectList(_context.Marmita, "id", "id");
             var status = Enum.GetValues(typeof(Status)).Cast<Status>().Select(e => new SelectListItem
             {
                 Value = e.ToString(),
@@ -66,10 +67,28 @@ namespace RestauranteAutenticacao.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,bebidaid,marmitaid,clienteid,status,tempoPedido")] Pedido pedido)
+        public async Task<IActionResult> Create([Bind("id,bebidaid,quantidadebebida,marmitaid,clienteid,status,tempoPedido")] Pedido pedido)
         {
             if (ModelState.IsValid)
             {
+                Bebida bebida = _context.Bebida.Find(pedido.bebidaid);
+
+                if (bebida.quantidade > pedido.quantidadebebida)
+                    {
+                        bebida.quantidade = bebida.quantidade - pedido.quantidadebebida;
+                    }
+                if(bebida.quantidade < pedido.quantidadebebida)
+                {
+                    pedido.quantidadebebida = bebida.quantidade;
+                    bebida.quantidade = 0;
+                }
+
+                if (pedido.status.Equals(Status.Entregue))
+                {
+                    pedido.tempoPedido = "Pedido entregue";
+                }
+
+                _context.Update(bebida);
                 _context.Add(pedido);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -77,8 +96,14 @@ namespace RestauranteAutenticacao.Controllers
             ViewData["bebidaid"] = new SelectList(_context.Bebida, "id", "descricao", pedido.bebidaid);
             ViewData["clienteid"] = new SelectList(_context.Cliente, "id", "endereco", pedido.clienteid);
             ViewData["marmitaid"] = new SelectList(_context.Marmita, "id", "descricao", pedido.marmitaid);
+            ViewData["bebidaid"] = new SelectList(_context.Bebida, "id", "quantidade", pedido.bebidaid);
+            var status = Enum.GetValues(typeof(Status)).Cast<Status>().Select(e => new SelectListItem
+            {
+                Value = e.ToString(),
+                Text = e.ToString()
+            });
+            ViewBag.bagStatus = status;
             return View(pedido);
-
         }
 
         // GET: Pedidos/Edit/5
@@ -97,6 +122,7 @@ namespace RestauranteAutenticacao.Controllers
             ViewData["bebidaid"] = new SelectList(_context.Bebida, "id", "descricao", pedido.bebidaid);
             ViewData["clienteid"] = new SelectList(_context.Cliente, "id", "endereco", pedido.clienteid);
             ViewData["marmitaid"] = new SelectList(_context.Marmita, "id", "descricao", pedido.marmitaid);
+            ViewData["bebidaid"] = new SelectList(_context.Bebida, "id", "quantidade", pedido.bebidaid);
             var status = Enum.GetValues(typeof(Status)).Cast<Status>().Select(e => new SelectListItem
             {
                 Value = e.ToString(),
@@ -111,7 +137,7 @@ namespace RestauranteAutenticacao.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,bebidaid,marmitaid,clienteid,status,tempoPedido")] Pedido pedido)
+        public async Task<IActionResult> Edit(int id, [Bind("id,bebidaid,quantidadebebida,marmitaid,clienteid,status,tempoPedido")] Pedido pedido)
         {
             if (id != pedido.id)
             {
@@ -141,8 +167,17 @@ namespace RestauranteAutenticacao.Controllers
             ViewData["bebidaid"] = new SelectList(_context.Bebida, "id", "descricao", pedido.bebidaid);
             ViewData["clienteid"] = new SelectList(_context.Cliente, "id", "endereco", pedido.clienteid);
             ViewData["marmitaid"] = new SelectList(_context.Marmita, "id", "descricao", pedido.marmitaid);
+            ViewData["bebidaid"] = new SelectList(_context.Bebida, "id", "quantidade", pedido.bebidaid);
+            var status = Enum.GetValues(typeof(Status)).Cast<Status>().Select(e => new SelectListItem
+            {
+                Value = e.ToString(),
+                Text = e.ToString()
+            });
+            ViewBag.bagStatus = status;
             return View(pedido);
         }
+
+
 
         // GET: Pedidos/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -172,21 +207,21 @@ namespace RestauranteAutenticacao.Controllers
         {
             if (_context.Pedido == null)
             {
-                return Problem("Entity set 'Contexto.pedidos'  is null.");
+                return Problem("Entity set 'Contexto.Pedido'  is null.");
             }
             var pedido = await _context.Pedido.FindAsync(id);
             if (pedido != null)
             {
                 _context.Pedido.Remove(pedido);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PedidoExists(int id)
         {
-            return _context.Pedido.Any(e => e.id == id);
+          return _context.Pedido.Any(e => e.id == id);
         }
     }
 }

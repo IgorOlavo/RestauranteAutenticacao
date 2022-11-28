@@ -18,6 +18,11 @@
                 <select asp-for="bebidaid" class ="form-control" asp-items="ViewBag.bebidaid"></select>
             </div>
             <div class="form-group">
+                <label asp-for="quantidadebebida" class="control-label"></label>
+                <input asp-for="quantidadebebida" class="form-control" />
+                <span asp-validation-for="quantidadebebida" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="marmitaid" class="control-label"></label>
                 <select asp-for="marmitaid" class ="form-control" asp-items="ViewBag.marmitaid"></select>
             </div>
@@ -28,7 +33,7 @@
             <div class="form-group">
                 <label asp-for="status" class="control-label"></label>
                 <select asp-for="status" asp-items="ViewBag.bagStatus" class="form-control">
-                    <option selected="selected" value="">Selecione um Elemento</option>
+                    <option selected="selected" value=""></option>
                 </select>
                 <span asp-validation-for="status" class="text-danger"></span>
             </div>
